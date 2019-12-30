@@ -4,6 +4,6 @@ import Model.Image;
 
 interface ImageLoader {
 
-    void load();
+    Image load();
 
 }
