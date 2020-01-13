@@ -3,6 +3,7 @@ package Controller;
 import View.FileImageLoader;
 import View.ImageDisplay;
 import View.PathPanel;
+import java.io.File;
 
 public class ChangeCommand implements Command{
 
@@ -17,7 +18,11 @@ public class ChangeCommand implements Command{
     @Override
     public void execute() {
         String path = pathPanel.getTextField().getText();
-        display.display(new FileImageLoader(path).load());
+        if(new File(path).exists()) {
+            display.display(new FileImageLoader(path).load());
+        } else {
+            System.out.println("Wrong path");
+        }
         pathPanel.getTextField().setText("");
     }
     
