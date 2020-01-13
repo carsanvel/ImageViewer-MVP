@@ -4,17 +4,33 @@ import Model.Image;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class FileImageLoader implements ImageLoader {
     
-    private final File[] files;
+    private File[] files;
     
     public FileImageLoader(String path) {
         files = new File(path).listFiles();
     }
+    
+    public void setFiles(String path) {
+        files = new File(path).listFiles(new FileFilter() {
+
+            @Override
+            public boolean accept(File pathname) {
+                String type = path.substring(path.length() - 4, path.length());
+                if(type.equals(".png") || type.equals(".jpg")) {
+                    return true;
+                }
+                return false;
+            }
+            
+        });
+    }   
     
     @Override
     public Image load() {
