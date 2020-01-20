@@ -17,13 +17,13 @@ public class ChangeCommand implements Command{
     
     @Override
     public void execute() {
-        String path = pathPanel.getTextField().getText();
+        String path = pathPanel.getText();
         if(new File(path).exists()) {
             display.display(new FileImageLoader(path).load());
         } else {
             System.out.println("Wrong path");
         }
-        pathPanel.getTextField().setText("");
+        pathPanel.setText("");
     }
     
 }

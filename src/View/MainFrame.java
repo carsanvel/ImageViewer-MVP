@@ -1,9 +1,6 @@
 package View;
 
-import Controller.ChangeCommand;
 import Controller.Command;
-import Controller.NextCommand;
-import Controller.PrevCommand;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +12,7 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame{
     
-    private SwingImageDisplay display;
+    private SwingImageDisplay imageDisplay;
     private Map<String, Command> commands;
     private PathPanel pathPanel;
     
@@ -25,19 +22,24 @@ public class MainFrame extends JFrame{
         setSize(1000, 700);
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
-        execute();
+        commands = new HashMap<>();
+        initializeDisplay();
+        initializeToolBar();
+    }
+
+
+    public void execute() {
         setVisible(true);
     }
 
-    private void execute() {
-        initializeDisplay();
-        initializeToolBar();
-        initializeCommands();
-    }
-
     private void initializeDisplay() {
-        display = new SwingImageDisplay();
-        getContentPane().add(display, BorderLayout.CENTER);
+        getContentPane().add(imageDisplay(), BorderLayout.CENTER);
+    }
+    
+    private JPanel imageDisplay() {
+        SwingImageDisplay display = new SwingImageDisplay();
+        imageDisplay = display;
+        return display;
     }
 
     private void initializeToolBar() {
@@ -56,11 +58,15 @@ public class MainFrame extends JFrame{
     }
     
     private void initializePathChangeBar(JPanel toolBarPanel) {
-        JPanel pathChangePanel = new JPanel();
-        pathPanel = new PathPanel();
-        pathChangePanel.add(pathPanel);
-        pathChangePanel.add(changePathButton());
-        toolBarPanel.add(pathChangePanel, BorderLayout.SOUTH);
+        pathPanel = new SwingPathPanel();
+        toolBarPanel.add(pathPanel(), BorderLayout.SOUTH);
+    }
+    
+    private JPanel pathPanel() {
+        SwingPathPanel panel = new SwingPathPanel();
+        panel.add(changePathButton());
+        pathPanel = panel;
+        return panel;
     }
     
     private JButton prevButton() {
@@ -82,16 +88,17 @@ public class MainFrame extends JFrame{
     }
     
     public ImageDisplay getImageDisplay() {
-        return display;
+        return imageDisplay;
+    }
+    
+    public PathPanel getPathPanel() {
+        return pathPanel;
     }
 
-    private void initializeCommands() {
-        commands = new HashMap<>();
-        commands.put("Next", new NextCommand(display));
-        commands.put("Prev", new PrevCommand(display));
-        commands.put("Change", new ChangeCommand(display, pathPanel));
+    public void addCommand(Command command, String name) {
+        commands.put(name, command);
     }
-
+    
     private ActionListener nextImage() {
         return new ActionListener() {
 
