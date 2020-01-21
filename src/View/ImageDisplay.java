@@ -1,9 +1,12 @@
 package View;
 
-import Model.Image;
+import Presenter.Listener;
+import java.awt.image.BufferedImage;
 
 public interface ImageDisplay {
 
-    void display(Image image);
-    Image getCurrentImage();
+    void display(BufferedImage bufferedImage);
+    void display(BufferedImage buffered1, BufferedImage buffered2, int separation);
+    void addListener(Listener listener);
+    
 }

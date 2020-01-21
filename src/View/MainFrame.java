@@ -1,11 +1,11 @@
 package View;
 
-import Controller.Command;
+import Presenter.Listener;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 public class MainFrame extends JFrame{
     
     private SwingImageDisplay imageDisplay;
-    private Map<String, Command> commands;
+    private List<Listener> listeners;
     private PathPanel pathPanel;
     
     public MainFrame() {
@@ -22,7 +22,7 @@ public class MainFrame extends JFrame{
         setSize(1000, 700);
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
-        commands = new HashMap<>();
+        listeners = new ArrayList<>();
         initializeDisplay();
         initializeToolBar();
     }
@@ -95,8 +95,8 @@ public class MainFrame extends JFrame{
         return pathPanel;
     }
 
-    public void addCommand(Command command, String name) {
-        commands.put(name, command);
+    public void addListener(Listener listener) {
+        listeners.add(listener);
     }
     
     private ActionListener nextImage() {
@@ -104,7 +104,9 @@ public class MainFrame extends JFrame{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                commands.get("Next").execute();
+                for (Listener listener : listeners) {
+                    listener.nextImage();
+                }
             }
             
         };
@@ -115,7 +117,9 @@ public class MainFrame extends JFrame{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                commands.get("Prev").execute();
+                for (Listener listener : listeners) {
+                    listener.prevImage();
+                }
             }
             
         };
@@ -126,7 +130,9 @@ public class MainFrame extends JFrame{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                commands.get("Change").execute();
+                for (Listener listener : listeners) {
+                    listener.changePath();
+                }
             }
         };
     }

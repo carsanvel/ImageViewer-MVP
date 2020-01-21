@@ -1,6 +1,7 @@
-package Controller;
+package Presenter;
 
 import Model.Image;
+import Model.ImageConverter;
 import View.FileImageLoader;
 import View.ImageDisplay;
 import View.MainFrame;
@@ -13,11 +14,12 @@ public class ImageViewer {
         Image image = loader.load();
         MainFrame frame = new MainFrame();
         ImageDisplay display = frame.getImageDisplay();
-        frame.addCommand(new NextCommand(display), "Next");
-        frame.addCommand(new PrevCommand(display), "Prev");
-        frame.addCommand(new ChangeCommand(display, frame.getPathPanel()), "Change");
+        ImagePresenter presenter = new ImagePresenter(image, display, frame.getPathPanel());
+        display.addListener(presenter);
+        frame.addListener(presenter);
+        display.display(ImageConverter.imageOf(image));
         frame.execute();
-        frame.getImageDisplay().display(image);
+        
     }
     
 }
