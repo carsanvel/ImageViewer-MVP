@@ -7,7 +7,7 @@ import View.FileImageLoader;
 import View.ImageDisplay;
 
 public class ImageViewer {
-
+    
     public static void main(String[] args) {
         
         FileImageLoader loader = new FileImageLoader("Europa");
