@@ -1,10 +1,10 @@
-package Presenter;
+package ImageViewer;
 
 import Model.Image;
-import Model.ImageConverter;
+import Presenter.ImagePresenter;
+import View.ImageConverter;
 import View.FileImageLoader;
 import View.ImageDisplay;
-import View.MainFrame;
 
 public class ImageViewer {
 
@@ -15,8 +15,6 @@ public class ImageViewer {
         MainFrame frame = new MainFrame();
         ImageDisplay display = frame.getImageDisplay();
         ImagePresenter presenter = new ImagePresenter(image, display, frame.getPathPanel());
-        display.addListener(presenter);
-        frame.addListener(presenter);
         display.display(ImageConverter.imageOf(image));
         frame.execute();
         

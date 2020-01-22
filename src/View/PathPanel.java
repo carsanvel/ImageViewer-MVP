@@ -2,7 +2,11 @@ package View;
 
 public interface PathPanel {
 
-    public String getText();
-    public void setText(String text);
+    String getText();
+    void setText(String text);
+    void addListener(Listener listener);
     
+    public interface Listener {
+        public void changePath();
+    }
 }

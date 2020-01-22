@@ -22,11 +22,7 @@ public class FileImageLoader implements ImageLoader {
 
             @Override
             public boolean accept(File pathname) {
-                String type = path.substring(path.length() - 4, path.length());
-                if(type.equals(".png") || type.equals(".jpg")) {
-                    return true;
-                }
-                return false;
+                return pathname.getAbsolutePath().endsWith(".png") || pathname.getAbsolutePath().endsWith(".jpg");
             }
             
         });
